@@ -141,7 +141,7 @@ class BMP280(object):
             return 0
 
         p = 1048576 - raw_pressure
-        p = (((p << 31) - p2) * 3125) / p1
+        p = (((p << 31) - p2) * 3125) // p1  # force floor(integer) divsion
         p1 = (self.cal_p9 * (p >> 13) * (p >> 13)) >> 25
         p2 = (self.cal_p8 * p) >> 19
         p = ((p + p1 + p2) >> 8) + ((self.cal_p7) << 4)
